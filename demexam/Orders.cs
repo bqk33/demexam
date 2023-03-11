@@ -16,11 +16,13 @@ namespace demexam
     {
         DB db = new DB();
 
-        protected MySqlCommandBuilder mySqlBuilder = null;
+        private MySqlCommandBuilder mySqlBuilder = null;
 
-        protected MySqlDataAdapter mySqlDataAdapter = null;
+        private MySqlDataAdapter mySqlDataAdapter = null;
 
-        protected DataSet dataSet = null;
+        private DataSet dataSet = null;
+
+        private bool newRowAdding = false;
         public Orders()
         {
             InitializeComponent();
@@ -53,7 +55,7 @@ namespace demexam
                 {
                     DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
 
-                    dataGridOrders[6, i] = linkCell;
+                    dataGridOrders[7, i] = linkCell;
                 }
             }
             catch (Exception ex)
@@ -76,7 +78,7 @@ namespace demexam
                 {
                     DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
 
-                    dataGridOrders[6, i] = linkCell;
+                    dataGridOrders[7, i] = linkCell;
                 }
             }
             catch (Exception ex)
@@ -147,7 +149,7 @@ namespace demexam
         {
             db.openConnect();
 
-            var query = "INSERT INTO `orders`(`discount_percentage`, `status`, `id_client`, `id_employee`, `id_service`) VALUES (" + tboxPercent.Text + ", 1, " +
+            var query = "INSERT INTO `orders`(`discount_percentage`, `status`, `timee`, `id_client`, `id_employee`, `id_service`) VALUES (" + tboxPercent.Text + ", 1, '" + dateTimeOrder.Text + "', " +
                 convertPhoneToId(cboxClient.Text) + ", 1, " + convertNameToId(cboxService.Text) + ")";
 
             MySqlCommand cmd = new MySqlCommand(query, db.getConnect());
@@ -185,23 +187,69 @@ namespace demexam
         {
             try
             {
-                if(e.ColumnIndex == 6)
+                if(e.ColumnIndex == 7)
                 {
-                    if (MessageBox.Show("Удалить эту строку?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    string task = dataGridOrders.Rows[e.RowIndex].Cells[7].Value.ToString();
+
+                    if (task == "Delete")
                     {
-                        int rowIndex = e.RowIndex;
+                        if (MessageBox.Show("Удалить эту строку?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            int rowIndex = e.RowIndex;
 
-                        dataGridOrders.Rows.RemoveAt(rowIndex);
+                            dataGridOrders.Rows.RemoveAt(rowIndex);
 
-                        dataSet.Tables["orders"].Rows[rowIndex].Delete();
+                            dataSet.Tables["orders"].Rows[rowIndex].Delete();
+
+                            mySqlDataAdapter.Update(dataSet, "orders");
+                        }
+                    }
+                    else if (task == "Update")
+                    {
+                        int r = e.RowIndex;
+
+                        dataSet.Tables["orders"].Rows[r]["discount_percentage"] = dataGridOrders.Rows[r].Cells["discount_percentage"].Value;
+                        dataSet.Tables["orders"].Rows[r]["status"] = dataGridOrders.Rows[r].Cells["status"].Value;
+                        dataSet.Tables["orders"].Rows[r]["timee"] = dataGridOrders.Rows[r].Cells["timee"].Value;
+                        dataSet.Tables["orders"].Rows[r]["id_client"] = dataGridOrders.Rows[r].Cells["id_client"].Value;
+                        dataSet.Tables["orders"].Rows[r]["id_employee"] = dataGridOrders.Rows[r].Cells["id_employee"].Value;
+                        dataSet.Tables["orders"].Rows[r]["id_service"] = dataGridOrders.Rows[r].Cells["id_service"].Value;
 
                         mySqlDataAdapter.Update(dataSet, "orders");
+
+                        dataGridOrders.Rows[e.RowIndex].Cells[7].Value = "Delete";
                     }
+
+
                     ReloadData();
                 }
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
+
+        private void dataGridOrders_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if(newRowAdding == false)
+                {
+                    int rowIndex = dataGridOrders.SelectedCells[0].RowIndex;
+
+                    DataGridViewRow editingRow = dataGridOrders.Rows[rowIndex];
+
+                    DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
+
+                    dataGridOrders[7, rowIndex] = linkCell;
+
+                    editingRow.Cells["Command"].Value = "Update";
+                }
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

@@ -127,6 +127,7 @@ namespace demexam
             this.dataGridOrders.Size = new System.Drawing.Size(780, 225);
             this.dataGridOrders.TabIndex = 8;
             this.dataGridOrders.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.dataGridOrders.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridOrders_CellValueChanged);
             // 
             // dateTimeOrder
             // 
