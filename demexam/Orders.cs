@@ -12,16 +12,16 @@ using MySql.Data.MySqlClient;
 
 namespace demexam
 {
-    public partial class Form2 : Form
+    public partial class Orders : Form
     {
         DB db = new DB();
 
-        private MySqlCommandBuilder mySqlBuilder = null;
+        protected MySqlCommandBuilder mySqlBuilder = null;
 
-        private MySqlDataAdapter mySqlDataAdapter = null;
+        protected MySqlDataAdapter mySqlDataAdapter = null;
 
-        private DataSet dataSet = null;
-        public Form2()
+        protected DataSet dataSet = null;
+        public Orders()
         {
             InitializeComponent();
             //this.StartPosition = FormStartPosition.Manual; // запуск окна в нужной позиции
@@ -136,14 +136,13 @@ namespace demexam
         }
         public int convertNameToId(string name)
         {
-
             MySqlCommand command = new MySqlCommand($"SELECT id_service FROM service WHERE name='{name}'", db.getConnect());
 
             int id = Int32.Parse(command.ExecuteScalar().ToString());
 
             return id;
         }
-        //
+        
         public void addData()
         {
             db.openConnect();
@@ -155,11 +154,6 @@ namespace demexam
             cmd.ExecuteNonQuery();
 
             db.closeConnect();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -177,6 +171,39 @@ namespace demexam
         private void btnAddData_Click(object sender, EventArgs e)
         {
             addData();
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            ChoiceAction choiceAction = new ChoiceAction();
+            this.Hide();
+            choiceAction.ShowDialog();
+            this.Close();
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if(e.ColumnIndex == 6)
+                {
+                    if (MessageBox.Show("Удалить эту строку?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        int rowIndex = e.RowIndex;
+
+                        dataGridView1.Rows.RemoveAt(rowIndex);
+
+                        dataSet.Tables["order"].Rows[rowIndex].Delete();
+
+                        mySqlDataAdapter.Update(dataSet, "order");
+                    }
+                    ReloadData();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

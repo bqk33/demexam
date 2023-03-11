@@ -11,7 +11,7 @@ using MySql.Data.MySqlClient;
 
 namespace demexam
 {
-    public partial class Form1 : Form
+    public partial class Login : Form
     {
         DB db = new DB();
         //MySqlConnection connect = new MySqlConnection("server=localhost;uid=root;" +
@@ -30,7 +30,7 @@ namespace demexam
         //{
         //    return connect;
         //}
-        public Form1()
+        public Login()
         {
             InitializeComponent();
             //MySqlConnection connect;
@@ -94,10 +94,14 @@ namespace demexam
 
                 if (!string.IsNullOrEmpty(result))
                 {
+                    ChoiceAction choiceAction = new ChoiceAction();
                     this.Hide();
-                    Form2 forma2 = new Form2();
-                    forma2.FormClosed += (object s, FormClosedEventArgs ev) => { this.Show(); };
-                    forma2.Show();
+                    choiceAction.ShowDialog();
+                    this.Close();
+                    //this.Hide();
+                    //Orders forma2 = new Orders();
+                    //forma2.FormClosed += (object s, FormClosedEventArgs ev) => { this.Show(); };
+                    //forma2.Show();
                 }
                 else
                 {
