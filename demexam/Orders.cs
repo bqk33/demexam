@@ -34,7 +34,7 @@ namespace demexam
             {
                 //SELECT *, 'Delete' AS Command FROM `order`
                 //SELECT id_order, discount_percentage, status, client.name AS `Name CL`, phone, service.name FROM `order`, client, service WHERE service.id_service=`order`.id_service AND client.id_client=`order`.id_client
-                mySqlDataAdapter = new MySqlDataAdapter("SELECT *, 'Delete' AS Command FROM `order`", db.getConnect());
+                mySqlDataAdapter = new MySqlDataAdapter("SELECT *, 'Delete' AS Command FROM `orders`", db.getConnect());
 
                 mySqlBuilder = new MySqlCommandBuilder(mySqlDataAdapter);
 
@@ -44,16 +44,16 @@ namespace demexam
 
                 dataSet = new DataSet();
 
-                mySqlDataAdapter.Fill(dataSet, "order");
+                mySqlDataAdapter.Fill(dataSet, "orders");
 
 
-                dataGridView1.DataSource = dataSet.Tables["order"];
+                dataGridOrders.DataSource = dataSet.Tables["orders"];
 
-                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                for (int i = 0; i < dataGridOrders.Rows.Count; i++)
                 {
                     DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
 
-                    dataGridView1[6, i] = linkCell;
+                    dataGridOrders[6, i] = linkCell;
                 }
             }
             catch (Exception ex)
@@ -66,17 +66,17 @@ namespace demexam
         {
             try
             {
-                dataSet.Tables["order"].Clear();
+                dataSet.Tables["orders"].Clear();
 
-                mySqlDataAdapter.Fill(dataSet, "order");
+                mySqlDataAdapter.Fill(dataSet, "orders");
 
-                dataGridView1.DataSource = dataSet.Tables["order"];
+                dataGridOrders.DataSource = dataSet.Tables["orders"];
 
-                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                for (int i = 0; i < dataGridOrders.Rows.Count; i++)
                 {
                     DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
 
-                    dataGridView1[6, i] = linkCell;
+                    dataGridOrders[6, i] = linkCell;
                 }
             }
             catch (Exception ex)
@@ -147,7 +147,7 @@ namespace demexam
         {
             db.openConnect();
 
-            var query = "INSERT INTO `order`(`discount_percentage`, `status`, `id_client`, `id_employee`, `id_service`) VALUES (" + tboxPercent.Text + ", 1, " +
+            var query = "INSERT INTO `orders`(`discount_percentage`, `status`, `id_client`, `id_employee`, `id_service`) VALUES (" + tboxPercent.Text + ", 1, " +
                 convertPhoneToId(cboxClient.Text) + ", 1, " + convertNameToId(cboxService.Text) + ")";
 
             MySqlCommand cmd = new MySqlCommand(query, db.getConnect());
@@ -191,11 +191,11 @@ namespace demexam
                     {
                         int rowIndex = e.RowIndex;
 
-                        dataGridView1.Rows.RemoveAt(rowIndex);
+                        dataGridOrders.Rows.RemoveAt(rowIndex);
 
-                        dataSet.Tables["order"].Rows[rowIndex].Delete();
+                        dataSet.Tables["orders"].Rows[rowIndex].Delete();
 
-                        mySqlDataAdapter.Update(dataSet, "order");
+                        mySqlDataAdapter.Update(dataSet, "orders");
                     }
                     ReloadData();
                 }

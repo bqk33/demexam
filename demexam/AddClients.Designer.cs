@@ -29,7 +29,7 @@ namespace demexam
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridClients = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -40,17 +40,17 @@ namespace demexam
             this.btnAddClient = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnReload = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridClients)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dataGridClients
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 12);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(780, 225);
-            this.dataGridView1.TabIndex = 0;
+            this.dataGridClients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridClients.Location = new System.Drawing.Point(12, 12);
+            this.dataGridClients.Name = "dataGridClients";
+            this.dataGridClients.RowTemplate.Height = 25;
+            this.dataGridClients.Size = new System.Drawing.Size(390, 225);
+            this.dataGridClients.TabIndex = 0;
             // 
             // label1
             // 
@@ -115,7 +115,7 @@ namespace demexam
             // 
             // btnAddClient
             // 
-            this.btnAddClient.Location = new System.Drawing.Point(362, 308);
+            this.btnAddClient.Location = new System.Drawing.Point(152, 368);
             this.btnAddClient.Name = "btnAddClient";
             this.btnAddClient.Size = new System.Drawing.Size(75, 23);
             this.btnAddClient.TabIndex = 8;
@@ -125,7 +125,7 @@ namespace demexam
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(362, 402);
+            this.btnExit.Location = new System.Drawing.Point(329, 415);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(75, 23);
             this.btnExit.TabIndex = 9;
@@ -135,7 +135,7 @@ namespace demexam
             // 
             // btnReload
             // 
-            this.btnReload.Location = new System.Drawing.Point(705, 250);
+            this.btnReload.Location = new System.Drawing.Point(327, 250);
             this.btnReload.Name = "btnReload";
             this.btnReload.Size = new System.Drawing.Size(75, 23);
             this.btnReload.TabIndex = 10;
@@ -147,7 +147,7 @@ namespace demexam
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(804, 450);
+            this.ClientSize = new System.Drawing.Size(416, 450);
             this.Controls.Add(this.btnReload);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnAddClient);
@@ -158,12 +158,12 @@ namespace demexam
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridClients);
             this.Name = "AddClients";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AddClients";
             this.Load += new System.EventHandler(this.AddClients_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridClients)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -171,7 +171,7 @@ namespace demexam
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridClients;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;

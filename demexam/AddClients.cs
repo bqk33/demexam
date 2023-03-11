@@ -31,27 +31,16 @@ namespace demexam
             {
                 //SELECT *, 'Delete' AS Command FROM `order`
                 //SELECT id_order, discount_percentage, status, client.name AS `Name CL`, phone, service.name FROM `order`, client, service WHERE service.id_service=`order`.id_service AND client.id_client=`order`.id_client
-                mySqlDataAdapter = new MySqlDataAdapter("SELECT name, adress, phone, 'Delete' AS Command FROM `client`", db.getConnect());
+                mySqlDataAdapter = new MySqlDataAdapter("SELECT name, adress, phone FROM `client`", db.getConnect());
 
                 mySqlBuilder = new MySqlCommandBuilder(mySqlDataAdapter);
-
-                //mySqlBuilder.GetInsertCommand();
-                //mySqlBuilder.GetUpdateCommand();
-                //mySqlBuilder.GetDeleteCommand();
 
                 dataSet = new DataSet();
 
                 mySqlDataAdapter.Fill(dataSet, "client");
 
 
-                dataGridView1.DataSource = dataSet.Tables["client"];
-
-                for (int i = 0; i < dataGridView1.Rows.Count; i++)
-                {
-                    DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
-
-                    dataGridView1[3, i] = linkCell;
-                }
+                dataGridClients.DataSource = dataSet.Tables["client"];
             }
             catch (Exception ex)
             {
@@ -66,13 +55,13 @@ namespace demexam
 
                 mySqlDataAdapter.Fill(dataSet, "client");
 
-                dataGridView1.DataSource = dataSet.Tables["client"];
+                dataGridClients.DataSource = dataSet.Tables["client"];
 
-                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                for (int i = 0; i < dataGridClients.Rows.Count; i++)
                 {
                     DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
 
-                    dataGridView1[3, i] = linkCell;
+                    dataGridClients[3, i] = linkCell;
                 }
             }
             catch (Exception ex)
