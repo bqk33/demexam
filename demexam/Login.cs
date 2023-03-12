@@ -14,22 +14,7 @@ namespace demexam
     public partial class Login : Form
     {
         DB db = new DB();
-        //MySqlConnection connect = new MySqlConnection("server=localhost;uid=root;" +
-        //        "database=dbexam");
-        //public void openConnect()
-        //{
-        //    if (connect.State == System.Data.ConnectionState.Closed)
-        //        connect.Open();
-        //}
-        //public void closeConnect()
-        //{
-        //    if (connect.State == System.Data.ConnectionState.Open)
-        //        connect.Close();
-        //}
-        //public MySqlConnection getConnect()
-        //{
-        //    return connect;
-        //}
+
         public Login()
         {
             InitializeComponent();
@@ -78,21 +63,16 @@ namespace demexam
         private void btnEnter_Click(object sender, EventArgs e)
         {
             db.openConnect();
-            var query = "SELECT id_employee FROM employee WHERE login = '" + tboxLogin.Text + "' AND password = '" + tboxPassword.Text + "'";
-            MySqlCommand cmd = new MySqlCommand(query, db.getConnect());
-            string result = string.Empty;
+            string type = "employee";
             try
             {
-                MySqlDataReader dataReader = cmd.ExecuteReader();
-
-                while (dataReader.Read())
+                string result = checkPassword(type);
+                if (string.IsNullOrEmpty(result))
                 {
-                    result = dataReader.GetString(0);
+                    type = "client";
+                    result = checkPassword(type);
                 }
-
-                dataReader.Close();
-
-                if (!string.IsNullOrEmpty(result))
+                if (!string.IsNullOrEmpty(result) && type == "employee")
                 {
                     ChoiceAction choiceAction = new ChoiceAction();
                     this.Hide();
@@ -102,6 +82,14 @@ namespace demexam
                     //Orders forma2 = new Orders();
                     //forma2.FormClosed += (object s, FormClosedEventArgs ev) => { this.Show(); };
                     //forma2.Show();
+                }
+                else if (!string.IsNullOrEmpty(result) && type == "client") 
+                {
+                    //ChoiceAction choiceAction = new ChoiceAction();
+                    //this.Hide();
+                    //choiceAction.ShowDialog();
+                    //this.Close();
+                    MessageBox.Show("llooasd");
                 }
                 else
                 {
@@ -113,6 +101,24 @@ namespace demexam
                 MessageBox.Show(exc.Message);
             }
             db.closeConnect();
+        }
+
+        private string checkPassword(string type)
+        {
+            var query = $"SELECT id_{type} FROM {type} WHERE login = '" + tboxLogin.Text + "' AND password = '" + tboxPassword.Text + "'";
+            MySqlCommand cmd = new MySqlCommand(query, db.getConnect());
+
+            string result = string.Empty;
+
+            MySqlDataReader dataReader = cmd.ExecuteReader();
+
+            while (dataReader.Read())
+            {
+                result = dataReader.GetString(0);
+            }
+
+            dataReader.Close();
+            return result;
         }
 
         private void checkBoxShowPass_CheckedChanged(object sender, EventArgs e)
@@ -129,10 +135,7 @@ namespace demexam
 
         private void tboxPassword_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if ((e.KeyChar >= 'A' && e.KeyChar <= 'Z') || (e.KeyChar >= 'a' && e.KeyChar <= 'z') || (e.KeyChar >= '0' && e.KeyChar <= '9') || e.KeyChar == (char)Keys.Back)
-            {
-            }
-            else
+            if (!((e.KeyChar >= 'A' && e.KeyChar <= 'Z') || (e.KeyChar >= 'a' && e.KeyChar <= 'z') || (e.KeyChar >= '0' && e.KeyChar <= '9') || e.KeyChar == (char)Keys.Back))
             {
                 e.Handled = true;
                 MessageBox.Show("Используйте только латинскую кириллицу и цифры!", "Внимание");

@@ -23,6 +23,7 @@ namespace demexam
         private DataSet dataSet = null;
 
         private bool newRowAdding = false;
+
         public Orders()
         {
             InitializeComponent();
@@ -47,7 +48,6 @@ namespace demexam
                 dataSet = new DataSet();
 
                 mySqlDataAdapter.Fill(dataSet, "orders");
-
 
                 dataGridOrders.DataSource = dataSet.Tables["orders"];
 
@@ -128,6 +128,7 @@ namespace demexam
 
             db.closeConnect();
         }
+
         public int convertPhoneToId(string phone)
         {
             MySqlCommand command = new MySqlCommand($"SELECT id_client FROM client WHERE phone='{phone}'", db.getConnect());
@@ -136,6 +137,7 @@ namespace demexam
 
             return id;
         }
+
         public int convertNameToId(string name)
         {
             MySqlCommand command = new MySqlCommand($"SELECT id_service FROM service WHERE name='{name}'", db.getConnect());

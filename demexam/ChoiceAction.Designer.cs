@@ -72,6 +72,8 @@ namespace demexam
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnOpenOrders);
             this.Controls.Add(this.btnOpenAddClients);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "ChoiceAction";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ChoiceAction";

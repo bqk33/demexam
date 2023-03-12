@@ -39,7 +39,6 @@ namespace demexam
 
                 mySqlDataAdapter.Fill(dataSet, "client");
 
-
                 dataGridClients.DataSource = dataSet.Tables["client"];
             }
             catch (Exception ex)
@@ -56,13 +55,6 @@ namespace demexam
                 mySqlDataAdapter.Fill(dataSet, "client");
 
                 dataGridClients.DataSource = dataSet.Tables["client"];
-
-                for (int i = 0; i < dataGridClients.Rows.Count; i++)
-                {
-                    DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
-
-                    dataGridClients[3, i] = linkCell;
-                }
             }
             catch (Exception ex)
             {

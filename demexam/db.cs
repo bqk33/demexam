@@ -17,11 +17,13 @@ namespace demexam
             if (connect.State == System.Data.ConnectionState.Closed)
                 connect.Open();
         }
+
         public void closeConnect()
         {
             if (connect.State == System.Data.ConnectionState.Open)
                 connect.Close();
         }
+
         public MySqlConnection getConnect()
         {
             return connect;
